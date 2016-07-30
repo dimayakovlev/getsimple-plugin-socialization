@@ -69,7 +69,7 @@ function pluginSocializationGUI($plugin_name) {
     </div>
     <div class="wideopt">
       <p class="clearfix">
-      	<label for="post-socializationImageDraft"><?php i18n($plugin_name.'/SOCIAL_META_IMG_URL'); ?>:<span class="right" id="socializationImagePreview"></span></label>
+      	<label for="post-socializationImageDraft"><?php i18n($plugin_name.'/SOCIAL_META_IMAGE_URL'); ?>:<span class="right" id="socializationImagePreview"></span></label>
         <input class="text short" id="post-socializationImageDraft" name="post-socializationImageDraft" type="text" value="<?php echo $social_img_draft; ?>" />
         <input type="hidden" id="post-socializationImage" name="post-socializationImage" vale="<?php echo $social_img; ?>" />
       </p>
