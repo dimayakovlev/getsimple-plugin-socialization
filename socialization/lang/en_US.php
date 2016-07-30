@@ -14,7 +14,6 @@ $i18n = array(
   'TWITTER_CARD_TYPE' => 'Twitter Card Type',
   # settings form
   'SETTINGS_TITLE' => 'Social Meta Tags Settings',
-  'DISABLE_TAGS' => 'Disable Social Meta Tags',
   'TWITTER_ACCOUNT' => 'Twitter Account',
   'FB_APP_ID' => 'Facebook App ID',
   'FB_ADMINS' => 'Facebook Admins',
