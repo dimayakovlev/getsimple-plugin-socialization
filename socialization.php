@@ -85,6 +85,7 @@ function pluginSocializationGUI($plugin_name) {
         <label for="post-socializationOgType" class="clearfix"><?php i18n($plugin_name.'/OG_TYPE_OBJECT'); ?>:</label>
         <select class="text" id="post-socializationOgType" name="post-socializationOgType">
           <option value="article"<?php if ($social_og_type == 'article') echo ' selected'; ?>>Article</a>
+          <option value="product"<?php if ($social_og_type == 'product') echo ' selected'; ?>>Product</a>
           <option value="website"<?php if ($social_og_type == 'website') echo ' selected'; ?>>Website</a>
         </select>
       </p>
@@ -178,10 +179,10 @@ function pluginSocializationGUIWebsiteSettings($plugin_name) {
 </style>
 <div id="socialization">
   <div class="widesec">
-  <h3><?php i18n($plugin_name.'/SETTINGS_TITLE'); ?>:</h3>
+  <!--<h3><?php i18n($plugin_name.'/SETTINGS_TITLE'); ?></h3>-->
     <p class="inline clearfix">
-      <input type="checkbox" id="post-socializationEnable" name="post-socializationEnable" <?php echo $social_disable; ?> />
-      <label class="checkbox" for="post-socializationEnable"><?php i18n($plugin_name.'/USE_TAGS'); ?></label>
+      <input type="checkbox" id="post-socializationEnable" name="post-socializationEnable" <?php echo $social_disable; ?> /> &nbsp;
+      <label for="post-socializationEnable"><?php i18n($plugin_name.'/USE_TAGS'); ?></label>
     </p>
   </div>
   <div class="widesec">
