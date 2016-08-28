@@ -34,7 +34,7 @@ register_plugin(
 
 function pluginSocializationGUI($plugin_name) {
   global $id, $data_edit;
-  $social_enable = $social_title = $social_desc = $social_img = '';
+  $social_enable = $social_title = $social_desc = $social_img = $social_img_draft = '';
   $social_og_type = ''; # http://ogp.me/
   $social_twitter_card_type = ''; # https://dev.twitter.com/cards/types
 
