@@ -165,8 +165,6 @@ function pluginSocializationCreateMeta() {
 // Global plugin settings
 
 function pluginSocializationGUIWebsiteSettings($plugin_name) {
-  i18n_merge($plugin_name) || i18n_merge($plugin_name, 'en_US'); # Temporary solution
-  $dataw = getXML(GSDATAOTHERPATH .GSWEBSITEFILE,false); # Temporary solution
   $social_disable = (string)$dataw->socEnable == '1' ? 'checked' : '';
   $social_img = (string)$dataw->socImg;
   $social_img_draft = (string)$dataw->socImgDraft;
@@ -216,8 +214,8 @@ function pluginSocializationGUIWebsiteSettings($plugin_name) {
 function pluginSocializationSaveWebsiteData() {
   global $xmls;
   $fields = array('post-socializationImage' => 'socImg', 'post-socializationImageDraft' => 'socImgDraft', 'post-socializationTwitterSite' => 'socTwiSite', 'post-socializationFBAppID' =>'socFBAppID', 'post-socializationFBAdmins' => 'socFBAdmins');
-  $xmls->addCDataChild('socEnable', (string)isset($_POST['post-socializationEnable']));
-  foreach($fields as $key => $field) $xmls->addCDataChild($field, isset($_POST[$key]) ? safe_slash_html($_POST[$key]) : '');
+  $xmls->editAddCData('socEnable', (string)isset($_POST['post-socializationEnable']));
+  foreach($fields as $key => $field) $xmls->editAddCData($field, isset($_POST[$key]) ? safe_slash_html($_POST[$key]) : '');
 }
 
 function pluginSocializationJS($plugin_name) {
