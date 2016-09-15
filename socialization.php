@@ -34,7 +34,8 @@ register_plugin(
 
 function pluginSocializationGUI($plugin_name) {
   global $id, $data_edit;
-  $social_enable = $social_title = $social_desc = $social_img = $social_img_draft = '';
+  $social_enable = true; // Enable socialization by default for new page
+  $social_title = $social_desc = $social_img = $social_img_draft = '';
   $social_og_type = ''; # http://ogp.me/
   $social_twitter_card_type = ''; # https://dev.twitter.com/cards/types
 
@@ -52,12 +53,12 @@ function pluginSocializationGUI($plugin_name) {
     // Add fields prefill
   }
 
-  $social_enable = $social_enable == '1' ? 'checked' : '';
+  $social_enable = strToBool($social_enable) ? 'checked' : '';
 ?>
 <div id="socialization">
     <div class="wideopt">
       <p class="inline clearfix">
-        <input type="checkbox" id="post-socializationEnable" name="post-socializationEnable" <?php echo $social_enable; ?> />
+        <input type="checkbox" id="post-socializationEnable" name="post-socializationEnable" value="1" <?php echo $social_enable; ?> />
         <label class="checkbox" for="post-socializationEnable"><?php i18n($plugin_name.'/USE_TAGS'); ?></label>
       </p>
     </div>
@@ -104,8 +105,7 @@ function pluginSocializationGUI($plugin_name) {
 }
 
 function pluginSocializationSavePageData($xml) {
-  $fields = array('post-socializationTitle' => 'socTitle', 'post-socializationImage' => 'socImg', 'post-socializationImageDraft' => 'socImgDraft', 'post-socializationDesc' => 'socDesc', 'post-socializationOgType' => 'socOGType', 'post-socializationTwitterCardType' => 'socTwiCard');
-  $xml->addCDataChild('socEnable', (string)isset($_POST['post-socializationEnable']));
+  $fields = array('post-socializationEnable' => 'socEnable', 'post-socializationTitle' => 'socTitle', 'post-socializationImage' => 'socImg', 'post-socializationImageDraft' => 'socImgDraft', 'post-socializationDesc' => 'socDesc', 'post-socializationOgType' => 'socOGType', 'post-socializationTwitterCardType' => 'socTwiCard');
   foreach($fields as $key => $field) {
     $xml->addCDataChild($field, isset($_POST[$key]) ? safe_slash_html($_POST[$key]) : '');
   }
@@ -114,16 +114,10 @@ function pluginSocializationSavePageData($xml) {
 
 function pluginSocializationCreateMeta() {
   global $data_index, $dataw;
-  if ((string)$dataw->socEnable != '1' || (string)$data_index->socEnable != '1') return;
+  if (!strToBool((string)$dataw->socEnable) || !strToBool((string)$data_index->socEnable)) return;
   $social_title = (string)$data_index->socTitle ? encode_quotes(strip_decode($data_index->socTitle)) : get_page_title(false);
   $social_desc = (string)$data_index->socDesc ? encode_quotes(strip_decode($data_index->socDesc)) : get_page_meta_desc(false);
   $social_img = (string)$data_index->socImg ?: (string)$dataw->socImg;
-
-  /*
-  if ($social_img && filter_var($social_img, FILTER_FLAG_HOST_REQUIRED) === false) {
-    $social_img = suggest_site_path().ltrim($social_img, '/');
-  }
-  */
 
   $social_og_type = (string)$data_index->socOGType;
   # Now website URL must contain domain name!
@@ -154,7 +148,6 @@ function pluginSocializationCreateMeta() {
   // Facebook Meta Tags
   if ($social_fb_app_id) echo '<meta property="fb:app_id" content="'.$social_fb_app_id.'" />'.PHP_EOL;
   if ($social_fb_admins) {
-    #foreach(preg_split("/[\s,;|]+/", $social_fb_admins, null, PREG_SPLIT_NO_EMPTY) as $fb_admin) echo '<meta property="fb:admins" content="'.$fb_admin.'" />'.PHP_EOL;
     foreach(tagsToAry($social_fb_admins) as $fb_admin) {
       if ($fb_admin) echo '<meta property="fb:admins" content="'.$fb_admin.'" />'.PHP_EOL;
     }
@@ -165,7 +158,8 @@ function pluginSocializationCreateMeta() {
 // Global plugin settings
 
 function pluginSocializationGUIWebsiteSettings($plugin_name) {
-  $social_disable = (string)$dataw->socEnable == '1' ? 'checked' : '';
+  global $dataw;
+  $social_enable = strToBool((string)$dataw->socEnable) ? 'checked' : '';
   $social_img = (string)$dataw->socImg;
   $social_img_draft = (string)$dataw->socImgDraft;
   $social_twitter_site = (string)$dataw->socTwiSite;
@@ -178,7 +172,7 @@ function pluginSocializationGUIWebsiteSettings($plugin_name) {
   <div class="widesec">
   <!--<h3><?php i18n($plugin_name.'/SETTINGS_TITLE'); ?></h3>-->
     <p class="inline clearfix">
-      <input type="checkbox" id="post-socializationEnable" name="post-socializationEnable" <?php echo $social_disable; ?> /> &nbsp;
+      <input type="checkbox" id="post-socializationEnable" name="post-socializationEnable" value="1" <?php echo $social_enable; ?> /> &nbsp;
       <label for="post-socializationEnable"><?php i18n($plugin_name.'/USE_TAGS'); ?></label>
     </p>
   </div>
@@ -213,8 +207,7 @@ function pluginSocializationGUIWebsiteSettings($plugin_name) {
 
 function pluginSocializationSaveWebsiteData() {
   global $xmls;
-  $fields = array('post-socializationImage' => 'socImg', 'post-socializationImageDraft' => 'socImgDraft', 'post-socializationTwitterSite' => 'socTwiSite', 'post-socializationFBAppID' =>'socFBAppID', 'post-socializationFBAdmins' => 'socFBAdmins');
-  $xmls->editAddCData('socEnable', (string)isset($_POST['post-socializationEnable']));
+  $fields = array('post-socializationEnable' => 'socEnable', 'post-socializationImage' => 'socImg', 'post-socializationImageDraft' => 'socImgDraft', 'post-socializationTwitterSite' => 'socTwiSite', 'post-socializationFBAppID' =>'socFBAppID', 'post-socializationFBAdmins' => 'socFBAdmins');
   foreach($fields as $key => $field) $xmls->editAddCData($field, isset($_POST[$key]) ? safe_slash_html($_POST[$key]) : '');
 }
 
