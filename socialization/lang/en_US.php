@@ -5,6 +5,7 @@ $i18n = array(
   'DESCRIPTION' => 'Add support for most important social meta tags',
   # page edit form
   'USE_TAGS' => 'Use Social Meta Tags',
+  'USE_TAGS_DESCRIPTION' => 'Use Social Meta Tags - <b style="font-weight:100">Adds support for main social meta tags in pages headers</b>',
   'SOCIAL_META_TTILE' => 'Social Meta Title',
   'SOCIAL_META_IMAGE_URL' => 'Social Meta Image URL',
   'SOCIAL_META_IMAGE_VIEW' => 'view image',

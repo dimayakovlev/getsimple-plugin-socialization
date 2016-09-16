@@ -173,7 +173,7 @@ function pluginSocializationGUIWebsiteSettings($plugin_name) {
   <!--<h3><?php i18n($plugin_name.'/SETTINGS_TITLE'); ?></h3>-->
     <p class="inline clearfix">
       <input type="checkbox" id="post-socializationEnable" name="post-socializationEnable" value="1" <?php echo $social_enable; ?> /> &nbsp;
-      <label for="post-socializationEnable"><?php i18n($plugin_name.'/USE_TAGS'); ?></label>
+      <label for="post-socializationEnable"><?php i18n($plugin_name.'/USE_TAGS_DESCRIPTION'); ?></label>
     </p>
   </div>
   <div class="widesec">
